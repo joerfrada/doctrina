@@ -78,7 +78,7 @@ class WebService {
         $res = json_decode($response);
 
         if (is_object($res)) {
-           $result  = "../../assets/img/avatar.jpg";
+            $result  = 'avatar.jpg';
         }
         else {
             $result = $res;

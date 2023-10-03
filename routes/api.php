@@ -23,7 +23,9 @@ use App\Http\Controllers\UsuarioController;
 */
 
 Route::post('login', [LoginController::class, 'login']);
-Route::any('logout', [LoginController::class, 'logout']);
+Route::group(['prefix' => 'auth'], function() {
+    Route::post('getConsultarImagenFuncionario', [LoginController::class, 'getConsultarImagenFuncionario']);
+});
 
 Route::group(['prefix' => 'articulo'], function() {
     Route::get('getArticulos', [ArticuloController::class, 'getArticulos']);
@@ -52,5 +54,5 @@ Route::group(['prefix' => 'home'], function() {
 });
 
 Route::group(['prefix' => 'usuario'], function() {
-    Route::get('getUsuarios', [ArticuloController::class, 'getUsuarios']);
+    Route::get('getUsuarios', [UsuarioController::class, 'getUsuarios']);
 });

@@ -9,7 +9,7 @@ class Archivo extends Model
 {
     use HasFactory;
 
-    protected $table = 'tb_archivo';
+    protected $table = 'tb_archivos';
 
     protected $primaryKey = 'archivo_id';
 

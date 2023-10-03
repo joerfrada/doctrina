@@ -1,0 +1,358 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Doctrina",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost/doctrina"
+        }
+    ],
+    "paths": {
+        "/api/articulo/getArticulos": {
+            "get": {
+                "tags": [
+                    "getArticulos"
+                ],
+                "operationId": "5692ec43a29f2b2127e96e43d307a181",
+                "responses": {
+                    "200": {
+                        "description": "Mostrar los artículos"
+                    }
+                }
+            }
+        },
+        "/api/articulo/crearArticulos": {
+            "post": {
+                "tags": [
+                    "crearArticulos"
+                ],
+                "operationId": "de33c9708c82f7a6fc5767f2e28ecf23",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "modelo"
+                                ],
+                                "properties": {
+                                    "modelo": {
+                                        "description": "Los objetos y los valores deben ser las comillas doble. Excepto las llaves {} y el entero sin comillas doble",
+                                        "type": "string",
+                                        "example": "{recomendado:true,categoria_id:0,titulo:NombreTitulo,subtitulo:NombreSubtitulo,descripcion:Texto,keywords:[],num_pagina:0}"
+                                    },
+                                    "cover": {
+                                        "description": "Cover del artículo",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "doc": {
+                                        "description": "Documento del artículo",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "audio": {
+                                        "description": "Audio del artículo",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "video": {
+                                        "description": "Vídeo del artículo",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "usuario": {
+                                        "description": "Corresponde el usuario logueado",
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ha creado exitosamente."
+                    }
+                }
+            }
+        },
+        "/api/articulo/actualizarArticulos": {
+            "post": {
+                "tags": [
+                    "actualizarArticulos"
+                ],
+                "operationId": "e0d6b29b6957d906967db95e66e205cc",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "modelo"
+                                ],
+                                "properties": {
+                                    "modelo": {
+                                        "description": "Los objetos y los valores deben ser las comillas doble. Excepto las llaves {} y el entero sin comillas doble",
+                                        "type": "string",
+                                        "example": "{articulo_id:0,recomendado:true,categoria_id:0,titulo:NombreTitulo,subtitulo:NombreSubtitulo,descripcion:Texto,keywords:[],num_pagina:0}"
+                                    },
+                                    "cover": {
+                                        "description": "Cover del artículo",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "doc": {
+                                        "description": "Documento del artículo",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "audio": {
+                                        "description": "Audio del artículo",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "video": {
+                                        "description": "Vídeo del artículo",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "usuario": {
+                                        "description": "Corresponde el usuario logueado",
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ha actualizado exitosamente."
+                    }
+                }
+            }
+        },
+        "/api/articulo/eliminarArticulos": {
+            "post": {
+                "tags": [
+                    "eliminarArticulos"
+                ],
+                "operationId": "efd4f9e317e69926f73ef11a129eb7fa",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "articulo_id"
+                                ],
+                                "properties": {
+                                    "articulo_id": {
+                                        "description": "La ID del artículo.",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ha eliminado exitosamente."
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "login"
+                ],
+                "operationId": "3673edffcdc18c06ac5aef5e2219d774",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "usuario",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "usuario": {
+                                        "description": "Corresponde al usuario empresarial del funcionario en la Policia Nacional",
+                                        "type": "text"
+                                    },
+                                    "password": {
+                                        "description": "Corresponde a la contraseña del funcionario en la Policia Nacional",
+                                        "type": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful"
+                    }
+                }
+            }
+        },
+        "/api/categoria/getCategorias": {
+            "get": {
+                "tags": [
+                    "getCategorias"
+                ],
+                "operationId": "2bd9f00b7565c155b6768a7d675b2539",
+                "responses": {
+                    "200": {
+                        "description": "Mostrar las categorías"
+                    }
+                }
+            }
+        },
+        "/api/categoria/crearCategorias": {
+            "post": {
+                "tags": [
+                    "crearCategorias"
+                ],
+                "operationId": "5822ad8ab2540889cc92df258415a410",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "orden",
+                                    "usuario"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "description": "Nombre de la categoría",
+                                        "type": "text"
+                                    },
+                                    "orden": {
+                                        "description": "Número del orden de la categoría",
+                                        "type": "integer"
+                                    },
+                                    "usuario": {
+                                        "description": "Corresponde el usuario logueado",
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ha creado exitoasamente."
+                    }
+                }
+            }
+        },
+        "/api/categoria/actualizarCategorias": {
+            "post": {
+                "tags": [
+                    "actualizarCategorias"
+                ],
+                "operationId": "af64b3538591a2c6b5f36ff74d53da22",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "categoria_id",
+                                    "nombre",
+                                    "orden",
+                                    "usuario"
+                                ],
+                                "properties": {
+                                    "categoria_id": {
+                                        "description": "La ID de la categoría.",
+                                        "type": "integer"
+                                    },
+                                    "nombre": {
+                                        "description": "Nombre de la categoría",
+                                        "type": "text"
+                                    },
+                                    "orden": {
+                                        "description": "Número del orden de la categoría",
+                                        "type": "integer"
+                                    },
+                                    "usuario": {
+                                        "description": "Corresponde el usuario logueado",
+                                        "type": "text"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ha actualizado exitoasamente."
+                    }
+                }
+            }
+        },
+        "/api/categoria/eliminarCategorias": {
+            "post": {
+                "tags": [
+                    "eliminarCategorias"
+                ],
+                "operationId": "e79881241c2dd437cd1caaa07fe4debb",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "categoria_id"
+                                ],
+                                "properties": {
+                                    "categoria_id": {
+                                        "description": "La ID de la categoría.",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ha eliminado exitosamente."
+                    }
+                }
+            }
+        }
+    }
+}

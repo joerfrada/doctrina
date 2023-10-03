@@ -40,96 +40,67 @@ class Articulo extends Model
             $a->keywords = $obj['keywords'];
             $a->num_pagina = $obj['num_pagina'];
             $a->usuario_creador = $obj['usuario'];
+
             $a->save();
 
-            if ($request->file('cover')) {
-                $folderPath = public_path('files') . '/cover' . '/' . $a->articulo_id;
-                if (!\File::exists($folderPath)) {
-                    \File::makeDirectory($folderPath, 0755, true);
-                }
-
-                $file = $request->file('cover');
-                $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
-                $formato = $file->getClientOriginalExtension();
-                $file->move($folderPath, $fileName);
-
-                if ($a->articulo_id != 0) {
+            if ($a->articulo_id != 0) {
+                if ($request->file('cover') || $request->file('doc') || $request->file('audio') || $request->file('video')) {
                     $m = new Archivo;
-                    $m->registro = $a->articulo_id;
-                    $m->nombre = $fileName;
-                    $m->formato = $formato;
-                    $m->ruta = 'files/cover' . '/' . $a->articulo_id;
+                    $m->registro_id = $a->articulo_id;
                     $m->usuario_creador = $obj['usuario'];
-                    $m->fecha_creacion = \DB::raw('GETDATE()');
-                    $m->save();
-                }
-            }
+                    
+                    if ($request->file('cover')) {
+                        $folderPath = env('APP_FILE_DIR') . 'cover' . '\\' . $a->articulo_id;
+                        if (!\File::exists($folderPath)) {
+                            \File::makeDirectory($folderPath, 0755, true);
+                        }
+        
+                        $file = $request->file('cover');
+                        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($folderPath, $fileName);
 
-            if ($request->file('doc')) {
-                $folderPath = public_path('files') . '/doc' . '/' . $a->articulo_id;
-                if (!\File::exists($folderPath)) {
-                    \File::makeDirectory($folderPath, 0755, true);
-                }
+                        $m->ruta_cover = 'cover' . '\\' . $a->articulo_id . '\\' . $fileName;
+                    }
 
-                $file = $request->file('doc');
-                $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
-                $formato = $file->getClientOriginalExtension();
-                $file->move($folderPath, $fileName);
+                    if ($request->file('doc')) {
+                        $folderPath = env('APP_FILE_DIR') . 'doc' . '\\' . $a->articulo_id;
+                        if (!\File::exists($folderPath)) {
+                            \File::makeDirectory($folderPath, 0755, true);
+                        }
+        
+                        $file = $request->file('doc');
+                        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($folderPath, $fileName);
+        
+                        $m->ruta_doc = 'doc' . '\\' . $a->articulo_id . '\\' . $fileName;
+                    }
 
-                if ($a->articulo_id != 0) {
-                    $m = new Archivo;
-                    $m->registro = $a->articulo_id;
-                    $m->nombre = $fileName;
-                    $m->formato = $formato;
-                    $m->ruta = 'files/doc' . '/' . $a->articulo_id;
-                    $m->usuario_creador = $obj['usuario'];
-                    $m->fecha_creacion = \DB::raw('GETDATE()');
-                    $m->save();
-                }
-            }
+                    if ($request->file('audio')) {
+                        $folderPath = env('APP_FILE_DIR') . 'audio' . '\\' . $a->articulo_id;
+                        if (!\File::exists($folderPath)) {
+                            \File::makeDirectory($folderPath, 0755, true);
+                        }
+        
+                        $file = $request->file('audio');
+                        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($folderPath, $fileName);
+        
+                        $m->ruta_audio = 'audio' . '\\' . $a->articulo_id . '\\' . $fileName;
+                    }
 
-            if ($request->file('audio')) {
-                $folderPath = public_path('files') . '/audio' . '/' . $a->articulo_id;
-                if (!\File::exists($folderPath)) {
-                    \File::makeDirectory($folderPath, 0755, true);
-                }
+                    if ($request->file('video')) {
+                        $folderPath = env('APP_FILE_DIR') . 'video' . '\\' . $a->articulo_id;
+                        if (!\File::exists($folderPath)) {
+                            \File::makeDirectory($folderPath, 0755, true);
+                        }
+        
+                        $file = $request->file('video');
+                        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($folderPath, $fileName);
+        
+                        $m->ruta_video = 'video' . '\\' . $a->articulo_id . '\\' . $fileName;
+                    }
 
-                $file = $request->file('audio');
-                $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
-                $formato = $file->getClientOriginalExtension();
-                $file->move($folderPath, $fileName);
-
-                if ($a->articulo_id != 0) {
-                    $m = new Archivo;
-                    $m->registro = $a->articulo_id;
-                    $m->nombre = $fileName;
-                    $m->formato = $formato;
-                    $m->ruta = 'files/audio' . '/' . $a->articulo_id;
-                    $m->usuario_creador = $obj['usuario'];
-                    $m->fecha_creacion = \DB::raw('GETDATE()');
-                    $m->save();
-                }
-            }
-
-            if ($request->file('video')) {
-                $folderPath = public_path('files') . '/video' . '/' . $a->articulo_id;
-                if (!\File::exists($folderPath)) {
-                    \File::makeDirectory($folderPath, 0755, true);
-                }
-
-                $file = $request->file('video');
-                $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
-                $formato = $file->getClientOriginalExtension();
-                $file->move($folderPath, $fileName);
-
-                if ($a->articulo_id != 0) {
-                    $m = new Archivo;
-                    $m->registro = $a->articulo_id;
-                    $m->nombre = $fileName;
-                    $m->formato = $formato;
-                    $m->ruta = 'files/video' . '/' . $a->articulo_id;
-                    $m->usuario_creador = $obj['usuario'];
-                    $m->fecha_creacion = \DB::raw('GETDATE()');
                     $m->save();
                 }
             }
@@ -146,98 +117,130 @@ class Articulo extends Model
             $a->keywords = $obj['keywords'];
             $a->num_pagina = $obj['num_pagina'];
             $a->usuario_modificador = $obj['usuario'];
+
             $a->save();
 
-            $id = $obj['articulo_id'];
+            $archivo_existe = $obj['archivo_existe'];
 
-            if ($request->file('cover')) {
-                $folderPath = public_path('files') . '/cover' . '/' . $id;
-                if (!\File::exists($folderPath)) {
-                    \File::makeDirectory($folderPath, 0755, true);
-                }
+            if ($archivo_existe == 1) {
+                if ($request->file('cover') || $request->file('doc') || $request->file('audio') || $request->file('video')) {
+                    $m = Archivo::where('registro_id', $a->articulo_id)->first();
+                    $m->registro_id = $a->articulo_id;
+                    $m->usuario_modificador = $obj['usuario'];
+                    
+                    if ($request->file('cover')) {
+                        $folderPath = env('APP_FILE_DIR') . 'cover' . '\\' . $a->articulo_id;
+                        if (!\File::exists($folderPath)) {
+                            \File::makeDirectory($folderPath, 0755, true);
+                        }
+        
+                        $file = $request->file('cover');
+                        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($folderPath, $fileName);
 
-                $file = $request->file('cover');
-                $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
-                $formato = $file->getClientOriginalExtension();
-                $file->move($folderPath, $fileName);
+                        $m->ruta_cover = 'cover' . '\\' . $a->articulo_id . '\\' . $fileName;
+                    }
 
-                if ($id != 0) {
-                    $m = new Archivo;
-                    $m->registro = $id;
-                    $m->nombre = $fileName;
-                    $m->formato = $formato;
-                    $m->ruta = 'files/cover' . '/' . $id;
-                    $m->usuario_creador = $obj['usuario'];
-                    $m->fecha_creacion = \DB::raw('GETDATE()');
+                    if ($request->file('doc')) {
+                        $folderPath = env('APP_FILE_DIR') . 'doc' . '\\' . $a->articulo_id;
+                        if (!\File::exists($folderPath)) {
+                            \File::makeDirectory($folderPath, 0755, true);
+                        }
+        
+                        $file = $request->file('doc');
+                        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($folderPath, $fileName);
+        
+                        $m->ruta_doc = 'doc' . '\\' . $a->articulo_id . '\\' . $fileName;
+                    }
+
+                    if ($request->file('audio')) {
+                        $folderPath = env('APP_FILE_DIR') . 'audio' . '\\' . $a->articulo_id;
+                        if (!\File::exists($folderPath)) {
+                            \File::makeDirectory($folderPath, 0755, true);
+                        }
+        
+                        $file = $request->file('audio');
+                        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($folderPath, $fileName);
+        
+                        $m->ruta_audio = 'audio' . '\\' . $a->articulo_id . '\\' . $fileName;
+                    }
+
+                    if ($request->file('video')) {
+                        $folderPath = env('APP_FILE_DIR') . 'video' . '\\' . $a->articulo_id;
+                        if (!\File::exists($folderPath)) {
+                            \File::makeDirectory($folderPath, 0755, true);
+                        }
+        
+                        $file = $request->file('video');
+                        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($folderPath, $fileName);
+        
+                        $m->ruta_video = 'video' . '\\' . $a->articulo_id . '\\' . $fileName;
+                    }
+                    
                     $m->save();
                 }
             }
-
-            if ($request->file('doc')) {
-                $folderPath = public_path('files') . '/doc' . '/' . $id;
-                if (!\File::exists($folderPath)) {
-                    \File::makeDirectory($folderPath, 0755, true);
-                }
-
-                $file = $request->file('doc');
-                $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
-                $formato = $file->getClientOriginalExtension();
-                $file->move($folderPath, $fileName);
-
-                if ($id != 0) {
+            else {
+                if ($request->file('cover') || $request->file('doc') || $request->file('audio') || $request->file('video')) {
                     $m = new Archivo;
-                    $m->registro = $id;
-                    $m->nombre = $fileName;
-                    $m->formato = $formato;
-                    $m->ruta = 'files/doc' . '/' . $id;
+                    $m->registro_id = $a->articulo_id;
                     $m->usuario_creador = $obj['usuario'];
-                    $m->fecha_creacion = \DB::raw('GETDATE()');
-                    $m->save();
-                }
-            }
+                    
+                    if ($request->file('cover')) {
+                        $folderPath = env('APP_FILE_DIR') . 'cover' . '\\' . $a->articulo_id;
+                        if (!\File::exists($folderPath)) {
+                            \File::makeDirectory($folderPath, 0755, true);
+                        }
+        
+                        $file = $request->file('cover');
+                        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($folderPath, $fileName);
+    
+                        $m->ruta_cover = 'cover' . '\\' . $a->articulo_id . '\\' . $fileName;
+                    }
+    
+                    if ($request->file('doc')) {
+                        $folderPath = env('APP_FILE_DIR') . 'doc' . '\\' . $a->articulo_id;
+                        if (!\File::exists($folderPath)) {
+                            \File::makeDirectory($folderPath, 0755, true);
+                        }
+        
+                        $file = $request->file('doc');
+                        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($folderPath, $fileName);
+        
+                        $m->ruta_doc = 'doc' . '\\' . $a->articulo_id . '\\' . $fileName;
+                    }
+    
+                    if ($request->file('audio')) {
+                        $folderPath = env('APP_FILE_DIR') . 'audio' . '\\' . $a->articulo_id;
+                        if (!\File::exists($folderPath)) {
+                            \File::makeDirectory($folderPath, 0755, true);
+                        }
+        
+                        $file = $request->file('audio');
+                        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($folderPath, $fileName);
+        
+                        $m->ruta_audio = 'audio' . '\\' . $a->articulo_id . '\\' . $fileName;
+                    }
+    
+                    if ($request->file('video')) {
+                        $folderPath = env('APP_FILE_DIR') . 'video' . '\\' . $a->articulo_id;
+                        if (!\File::exists($folderPath)) {
+                            \File::makeDirectory($folderPath, 0755, true);
+                        }
+        
+                        $file = $request->file('video');
+                        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                        $file->move($folderPath, $fileName);
+        
+                        $m->ruta_video = 'video' . '\\' . $a->articulo_id . '\\' . $fileName;
+                    }
 
-            if ($request->file('audio')) {
-                $folderPath = public_path('files') . '/audio' . '/' . $id;
-                if (!\File::exists($folderPath)) {
-                    \File::makeDirectory($folderPath, 0755, true);
-                }
-
-                $file = $request->file('audio');
-                $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
-                $formato = $file->getClientOriginalExtension();
-                $file->move($folderPath, $fileName);
-
-                if ($id != 0) {
-                    $m = new Archivo;
-                    $m->registro = $id;
-                    $m->nombre = $fileName;
-                    $m->formato = $formato;
-                    $m->ruta = 'files/audio' . '/' . $a->articulo_id;
-                    $m->usuario_creador = $obj['usuario'];
-                    $m->fecha_creacion = \DB::raw('GETDATE()');
-                    $m->save();
-                }
-            }
-
-            if ($request->file('video')) {
-                $folderPath = public_path('files') . '/video' . '/' . $id;
-                if (!\File::exists($folderPath)) {
-                    \File::makeDirectory($folderPath, 0755, true);
-                }
-
-                $file = $request->file('video');
-                $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
-                $formato = $file->getClientOriginalExtension();
-                $file->move($folderPath, $fileName);
-
-                if ($id != 0) {
-                    $m = new Archivo;
-                    $m->registro = $id;
-                    $m->nombre = $fileName;
-                    $m->formato = $formato;
-                    $m->ruta = 'files/video' . '/' . $id;
-                    $m->usuario_creador = $obj['usuario'];
-                    $m->fecha_creacion = \DB::raw('GETDATE()');
                     $m->save();
                 }
             }
