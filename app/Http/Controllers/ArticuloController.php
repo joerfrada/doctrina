@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Archivo;
 use App\Models\Articulo;
+use App\Models\Settings;
 
 class ArticuloController extends Controller
 {
@@ -21,6 +22,44 @@ class ArticuloController extends Controller
         $datos = $a->getArticulos();
 
         $response = json_encode(array('result' => $datos, 'tipo' => 0), JSON_NUMERIC_CHECK);
+        $response = json_decode($response);
+
+        return response()->json($response, 200);
+    }
+
+    public function getArticulo(Request $request) {
+        $categoria_id = $request->get('categoria_id');
+        $featurecat = $request->get('featurecat');
+        $feature = $request->get('feature');
+        $top = $request->get('top');
+        $titulo = $request->get('titulo');
+
+        if (isset($titulo) && $titulo != "0") {
+            $db = \DB::table('vw_articulos')->where('titulo', 'LIKE', '%'. $titulo . '%')->get();
+        }
+        else if (isset($top) && $top == 1) {
+            $datos = Settings::where('setting_id', 1)->get();
+            foreach ($datos as $item) {
+                $db = \DB::select('select * from vw_articulos where articulo_id = :id', array('id' => $item->top));
+            }
+        }
+        else if (isset($feature) && $feature == 1) {
+            $db = \DB::select('select * from vw_articulos where estado = 1 and feature = 1 order by dbms_random.random');
+            $t = 3;
+        }
+        else if (isset($categoria_id)) {
+            if (isset($featurecat) && $featurecat == 1) {
+                $db = \DB::select('select * from vw_articulos where estado = 1 and feature = 1 and categoria_id = :id', array('id' => $categoria_id));
+            }
+            else {
+                $db = \DB::select('select * from vw_articulos where estado = 1 and categoria_id = :id', array('id' => $categoria_id));
+            }            
+        }
+        else {
+            $db = \DB::select('select * from vw_articulos where estado = 1 order by dbms_random.random');
+        }
+
+        $response = json_encode(array('result' => $db, 'tipo' => 0), JSON_NUMERIC_CHECK);
         $response = json_decode($response);
 
         return response()->json($response, 200);

@@ -29,6 +29,7 @@ Route::group(['prefix' => 'auth'], function() {
 
 Route::group(['prefix' => 'articulo'], function() {
     Route::get('getArticulos', [ArticuloController::class, 'getArticulos']);
+    Route::get('getArticulo', [ArticuloController::class, 'getArticulo']);
     Route::post('crearArticulos', [ArticuloController::class, 'crearArticulos']);
     Route::post('actualizarArticulos', [ArticuloController::class, 'actualizarArticulos']);
     Route::post('eliminarArticulo', [ArticuloController::class, 'eliminarArticulo']);
