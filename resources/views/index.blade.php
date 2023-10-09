@@ -96,10 +96,10 @@
                     <img src="{{ url('/img/escudo-policia.png') }}">
                 </div>
                 <div class="links">
-                    <a href="http://localhost:4200/" target="_blank">Doctrina Policial</a>
-                    <!-- <a href="http://172.28.9.34/" target="_blank">Doctrina Policial</a> -->
-                    <a href="http://192.168.1.171/doctrina/api/documentation" target="_blank">Servicio Web Doctrina</a>
-                    <!-- <a href="http://apiadenunciarrnmc.policia.gov.co/doctrina/api/documentation" target="_blank">Servicio Web Doctrina</a> -->
+                    <!-- <a href="http://localhost:4200/" target="_blank">Doctrina Policial</a> -->
+                    <a href="http://172.28.9.34/" target="_blank">Doctrina Policial</a>
+                    <!-- <a href="http://192.168.1.171/doctrina/api/documentation" target="_blank">Servicio Web Doctrina</a> -->
+                    <a href="http://apiadenunciarrnmc.policia.gov.co/doctrina/api/documentation" target="_blank">Servicio Web Doctrina</a>
                 </div>
                 <hr>
                 <span>
