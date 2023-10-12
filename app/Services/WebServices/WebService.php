@@ -32,11 +32,8 @@ class WebService {
 
     public function getLogin($token, $username, $password) {
         $url = "https://catalogoservicioweb.policia.gov.co/sw/api/DiversidadPonal/LoginOud";
-        $params = "scope=&grant_type=password&Usuario=" . $username . "&Contrasena=" . $password;
-        $headers = [];
-        $headers[] = 'grant_type: password';
-        $headers[] = 'Content-Type: application/x-www-form-urlencoded';
-        $headers[] = "Authorization: Bearer ". $token;
+        $params = json_encode(array('Usuario' => $username, 'Contrasena' => $password));
+        $headers = array('Content-Type: application/json', 'Authorization: Bearer ' . $token);
 
         $ch = curl_init();
 
